@@ -9,14 +9,54 @@
 # TASK 3: Improve it by giving them 5 tries to get it right before failing
 #           *** Do not use the exit command, and do not use a loop (e.g. while or for)
 #Task 1
-echo "What is the password"
-read password
-
-#Task 2
-if [ $password = hacker ]
-  then
-    echo "it is right password"
+pass="enter your password :"
+read -p "$pass" password
+referenceString=hacker
+if [ $password = $referenceString ]
+####Task 2
+then
+echo "it is right password"
 else
-    echo "it is incorrect password"
-
+   echo "it is wrong password"
 fi
+
+#####Task 3
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "task 3"
+pass="enter your password :"
+read -p "$pass" password
+
+     if [ $password != hacker ]
+     then
+       echo "enter password 2nd"
+       read password
+        if [ $password != hacker ]
+        then
+          echo "enter password 3rd"
+          read password
+          if [ $password != hacker ]
+          then
+            echo "enter password 4th"
+            read password
+            if [ $password != hacker ]
+            then
+              echo "enter password, this is the last chance"
+              read password
+              if [ $password != hacker ]
+              then
+                echo "Full attempt finished"
+              else
+                echo "correct"
+              fi
+            else
+              echo "correct"
+            fi
+          else
+            echo "correct"
+          fi
+        else
+          echo "correct"
+        fi
+      else
+        echo "correct"
+      fi

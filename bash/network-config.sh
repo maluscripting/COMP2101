@@ -33,17 +33,23 @@
 # e.g.
 #   interface_name=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
-my_hostname=$(hostname)
-interface_address=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
-lan_address=$(ip a s $interfaceaddress|awk '/inet /{gsub(/\/.*/,"");print $2}')
-lan_hostname=$(getent hosts $(ip a s $interfaceaddress)|awk '/inet /{gsub(/\/.*/,"");print $2}' | awk '{print $2}')
+hostname=$(hostname)
+lan_address=$(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
+lan_hostname=$(getent hosts $lan_address | awk '{print $2}')
 external_ip=$(curl -s icanhazip.com)
-external_name=$(getent hosts $externalip | awk '{print $2}')
+external_name=$(getent hosts $external_ip | awk '{print $2}')
+router_address=$(ip r | awk '/via/{gsub(/\/.*/,"");print $3}')
+router_name=$(getent hosts $router_address | awk '{print $2}')
+
+
 
 cat <<EOF
-Hostname        : $my_hostname
+Hostname        : $hostname
 LAN Address     : $lan_address
 LAN Hostname    : $lan_hostname
 External IP     : $external_ip
 External Name   : $external_name
+Router Address  : $router_address
+Router Name     : $router_name
+
 EOF
