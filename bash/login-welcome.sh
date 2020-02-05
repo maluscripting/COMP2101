@@ -18,14 +18,18 @@
 # Variables   #
 ###############
 title="Overlord"
+####Task 1
 $USER="Malavika"
 hostname="myhostname"
+#####Task 2
 hostname=$(hostname)
-
+######Task 3
 day=$(date +%A)
 hour=$(date +%I)
 minute=$(date +%M)
 meridian=$(date +%p)
+
+#####Task 4
 
 if [ $day == "Monday" ]
 then
