@@ -19,7 +19,8 @@ numberOfSleeps=10 # how many sleeps to wait for before quitting for inactivity
 #   error-message ["some text to print to stderr"]
 #
 function error-message {
-        local prog=`basename $0`
+        local prog
+        prog=`basename $0`
         echo "${prog}: ${1:-Unknown Error - a moose bit my sister once...}" >&2
 }
 
@@ -38,8 +39,42 @@ Default waittime is 1, waitcount is 10
 EOF
 }
 
-# Normally traps catch signals and do something useful or necessary with them
+###########Task
 
+function interrupt {
+
+  sleepCount=$numberOfSleeps
+
+  echo "You are not allowed to interrupt the count!!!"
+
+}
+
+
+
+# Quit - function
+
+function quit {
+
+
+
+  stty sane
+
+  sleepCount=0
+
+  echo "You find the secret to get out of the count... You are quitting immediately"
+
+  exit 0
+
+
+
+}
+
+
+
+# Normally traps catch signals and do something useful or necessary with them
+trap interrupt INT
+
+trap quit QUIT
 
 # Produce the numbers for the countdown
 function doCountdown {
@@ -83,8 +118,14 @@ if [ ! $sleepTime -gt 0 ]; then
 fi
 
 sleepCount=$numberOfSleeps
+while [ $sleepCount -gt 0 ]; do
 
-doCountdown|dialog --gauge "Remaining Time" 7 60
-stty sane
+    echo $((sleepCount * 100 / $numberOfSleeps))|dialog --gauge "Remaining Time" 7 60
+
+    sleepCount=$((sleepCount - 1))
+
+    sleep $sleepTime
+
+done
 
 echo "Wait counter expired, exiting peacefully"
